@@ -4,7 +4,9 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.imageio.ImageIO;
 
@@ -28,6 +30,8 @@ public class Main {
 		int col = Integer.parseInt(args[1]);
 		int row = Integer.parseInt(args[2]);
 		System.out.println("Columns: "+ col+ " Rows: "+row);
+		System.out.println("Output png:" + ending.replace("-", ""));
+		System.out.println("Output txt:" + args[0].replace("-", "")+".txt");
 		File tempFile = new File(1+ending);
 		try
 		{
@@ -42,8 +46,12 @@ public class Main {
 				temp = ImageIO.read(tempFile);
 				g.drawImage((Image)temp, (i % col)*w,((int) i/col)*h, null);
 			}
-			File outputfile = new File("saved.png");
+			File outputfile = new File(ending.replace("-", ""));
 		    ImageIO.write(out, "png", outputfile);
+		    outputfile = new File(args[0].replace("-", "")+".txt");
+		    PrintWriter text = new PrintWriter(new FileOutputStream(outputfile));
+		    text.print(col+","+row+",");
+		    text.close();
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
